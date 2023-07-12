@@ -49,6 +49,8 @@ export class FishesService {
 
   public find(queryParams: IQueryParams): Promise<Fish[]> {
     const buildQuery = () => {
+      if (!queryParams.month) return {};
+
       // If request informed a desired hour, we must obtain all possible active hours that contemplates it
       let formattedTime;
       if (queryParams.time) formattedTime = this.formatTime(queryParams.time);

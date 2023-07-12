@@ -1,43 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
+import {
+  IMonth,
+  IFishLocation,
+  IPeriodOfDay,
+  IAvailability,
+} from '../interfaces/fish.interface';
+
 export type FishDocument = HydratedDocument<Fish>;
 
-type IFishLocation =
-  | 'River'
-  | 'Pond'
-  | 'River (clifftop)'
-  | 'River (mouth)'
-  | 'Sea'
-  | 'Pier'
-  | 'Sea (rainy days)';
-
-type IPeriodOfDay =
-  | 'All day'
-  | '9 AM - 4 PM'
-  | '4 PM - 9 AM'
-  | '9 PM - 4 AM'
-  | '4 AM - 9 PM';
-
-export type IMonth =
-  | 'january'
-  | 'february'
-  | 'march'
-  | 'april'
-  | 'may'
-  | 'june'
-  | 'july'
-  | 'august'
-  | 'september'
-  | 'october'
-  | 'november'
-  | 'december';
-
-type IAvailability<T extends IMonth, U extends IPeriodOfDay[]> = {
-  [K in T]?: U;
-};
-
-@Schema()
+@Schema({ versionKey: false })
 class Availability {
   @Prop({ required: true, type: Object })
   northern_hemisphere: IAvailability<IMonth, IPeriodOfDay[]>;
@@ -46,7 +19,7 @@ class Availability {
   southern_hemisphere: IAvailability<IMonth, IPeriodOfDay[]>;
 }
 
-@Schema()
+@Schema({ versionKey: false })
 export class Fish {
   @Prop({ required: true })
   name: string;
